@@ -10,6 +10,7 @@
 
     include "./inc_header.php";
 ?>
+<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 <main class="w-50 mx-auto border rounded-5 p-5 mt-5 mb-5">
     <h1 class="text-center h1 mt-5">회원가입</h1>
     <form name="input_form" method="post" enctype="multipart/form-data" autocomplete="off"
