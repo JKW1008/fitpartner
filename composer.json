@@ -1,0 +1,15 @@
+{
+    "name": "woo/fitpartner",
+    "autoload": {
+        "psr-4": {
+            "Woo\\Fitpartner\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "JKW1008",
+            "email": "todendvv91@gmail.com"
+        }
+    ],
+    "require": {}
+}
