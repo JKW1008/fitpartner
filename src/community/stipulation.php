@@ -1,4 +1,7 @@
 <?php
+
+  $js_array = [ 'js/member.js'];
+
   include "./inc_header.php";
 ?>
 <main class="p-5 border rounded-5 mt-5">

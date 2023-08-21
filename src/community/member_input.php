@@ -6,6 +6,8 @@
         //     </script>");
     }
 
+    $js_array = ['js/member_input.js'];
+
     include "./inc_header.php";
 ?>
 <main class="w-50 mx-auto border rounded-5 p-5 mt-5 mb-5">
