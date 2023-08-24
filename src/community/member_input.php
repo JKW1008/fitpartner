@@ -8,6 +8,11 @@
 
     $js_array = ['js/member_input.js'];
 
+    $g_title = "회원가입";
+
+    $menu_code = 'member';
+
+
     include "./inc_header.php";
 ?>
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>

@@ -2,6 +2,10 @@
 
   $js_array = [ 'js/member.js'];
 
+  $g_title = '약관';
+  $menu_code = 'member';
+
+
   include "./inc_header.php";
 ?>
 <main class="p-5 border rounded-5 mt-5">
