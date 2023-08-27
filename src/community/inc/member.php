@@ -69,6 +69,11 @@
                 $row = $stmt->fetch();
 
                 if(password_verify($pw, $row['password'])){
+                    $sql = "UPDATE users SET login_dt=NOW() WHERE id=:id";
+                    $stmt = $this->conn->prepare($sql);
+                    $stmt->bindParam(':id', $id);
+                    $stmt->execute();
+                    
                     return true;
                 }else{
                     return false;
@@ -77,6 +82,51 @@
                 return false;
             }
 
+        }
+
+
+        // 로그아웃
+        public function logout() {
+            session_start();
+            session_destroy();
+
+            die('<script>self.location.href="../index.php";</script>');
+        }
+
+        // 정보 가져오기
+        public function getInfo($id){
+            $sql = "SELECT * FROM users WHERE id=:id";
+            $stmt = $this->conn->prepare($sql);
+            $stmt->bindParam(":id", $id);
+            $stmt->setFetchMode(PDO::FETCH_ASSOC);
+            $stmt->execute();
+            return $stmt->fetch();
+        }
+
+        public function edit($marr){
+            $sql = "UPDATE users SET name=:name, email=:email, zipcode=:zipcode, addr1=:addr1, addr2=:addr2, photo=:photo";
+        
+            $params = [
+                ':name' => $marr['name'], 
+                ':email' => $marr['email'],
+                ':zipcode' => $marr['zipcode'],
+                ':addr1' => $marr['addr1'],
+                ':addr2' => $marr['addr2'],
+                ':photo' => $marr['photo'],
+                ':id' => $marr['id']
+            ];
+        
+            if($marr['password'] != ''){
+                // 단방향 암호화 
+                $new_hash_password = password_hash($marr['password'], PASSWORD_DEFAULT);
+                $params[':password'] = $new_hash_password;
+                $sql .= ", password=:password"; // 비밀번호 업데이트할 때만 추가
+            }
+        
+            $sql .= " WHERE id=:id";
+        
+            $stmt = $this->conn->prepare($sql);
+            $stmt->execute($params);
         }
     }
 ?>

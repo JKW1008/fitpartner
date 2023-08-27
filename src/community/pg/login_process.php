@@ -24,8 +24,11 @@
     if($mem->login($id, $pw)){
         $arr = ['result' => 'login_success'];
 
+        $memArr = $mem->getInfo($id);
+
         session_start();
         $_SESSION['ses_id'] = $id;
+        $_SESSION['ses_level'] = $memArr['level'];
 
     }else{
         $arr = ['result' => 'login_fail'];

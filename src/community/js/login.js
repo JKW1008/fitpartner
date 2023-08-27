@@ -29,7 +29,7 @@ document.addEventListener("DOMContentLoaded", () => {
       if (xhr.status == 200) {
         const data = JSON.parse(xhr.responseText);
         if (data.result == "login_fail") {
-          alert("해당 정보는 존재하지 않습니다.");
+          alert("아이디 혹은 비밀번호를 잘못입력하셨씁니다.");
           f_id.value = "";
           f_pw.value = "";
           f_id.focus();

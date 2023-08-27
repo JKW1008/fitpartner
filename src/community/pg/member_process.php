@@ -70,13 +70,52 @@
             'addr2' => $addr2,
             'photo' => $photo
         ];
-    };
-    $mem->input($arr);
 
-    echo "
-        <script>
-            self.location.href = '../member_success.php';
-        </script>    
-    ";
+        $mem->input($arr);
+
+        echo "
+            <script>
+                self.location.href = '../member_success.php';
+            </script>    
+        ";
+    
+    }else if($mode == 'edit'){
+        // Profile Image 처리
+        $old_photo = (isset($_POST['old_photo']) && $_POST['old_photo'] != '') ? $_POST['$old_photo'] : '';
+        
+        if (isset($_FILES['photo']) && $_FILES['photo']['name'] != '') {
+            if ($old_photo != '') {
+                unlink("../data/profile/" . $old_photo);
+            }
+        
+            $extArray = explode('.', $_FILES['photo']['name']);
+            $ext = end($extArray);
+            $photo = $id . '.' . $ext;
+        
+            copy($_FILES['photo']['tmp_name'], "../data/profile/" . $photo);
+        
+            $old_photo = $photo;
+        }
+        session_start();
+
+        $arr = [
+            'id' => $_SESSION['ses_id'],
+            'email' => $email,
+            'password' => $password,
+            'name' => $name,
+            'zipcode' => $zipcode,
+            'addr1' => $addr1,
+            'addr2' => $addr2,
+            'photo' => $old_photo
+        ];
+
+        $mem->edit($arr);
+
+        echo "
+            <script>
+                self.location.href = '../index.php';
+            </script>    
+        ";
+    }
 
 ?>

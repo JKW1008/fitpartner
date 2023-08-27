@@ -1,4 +1,8 @@
 <?php
+    session_start();
+
+    $ses_id    = (isset($_SESSION['ses_id'   ]) && $_SESSION['ses_id'   ] != '') ? $_SESSION['ses_id'   ] : '';
+    $ses_level = (isset($_SESSION['ses_level']) && $_SESSION['ses_level'] != '') ? $_SESSION['ses_level'] : '';
 
     $g_title = '회원가입을 축하드립니다.';
     $js_array = ['js/home.js'];

@@ -118,6 +118,7 @@ document.addEventListener("DOMContentLoaded", () => {
       return false;
     }
 
+    // 비밀번호 일치여부 확인
     if (f.password.value != f.password2.value) {
       alert("비밀번호가 서로 일치하지 않습니다.");
       f.password.value = "";
