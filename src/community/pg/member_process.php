@@ -75,6 +75,7 @@
 
         echo "
             <script>
+                alert('회원가입에 성공하셨습니다');
                 self.location.href = '../member_success.php';
             </script>    
         ";
@@ -113,6 +114,7 @@
 
         echo "
             <script>
+                alert('수정되었습니다.');
                 self.location.href = '../index.php';
             </script>    
         ";

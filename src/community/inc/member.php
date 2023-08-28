@@ -128,5 +128,83 @@
             $stmt = $this->conn->prepare($sql);
             $stmt->execute($params);
         }
+
+        //  회원 목록 가져오기
+        public function list($page, $limit, $paramArr){
+            $start = ($page - 1) * $limit;
+            $where = "";
+
+            if($paramArr['sn'] != '' && $paramArr['sf'] != ''){
+                switch($paramArr['sn']){
+                    case 1 : $sn_str = 'name'; break;
+                    case 2 : $sn_str = 'id'; break;
+                    case 3 : $sn_str = 'email'; break;
+                }
+
+                $where = " WHERE ".$sn_str."=:sf ";
+            }
+
+            $sql = "SELECT idx, id, name, email, DATE_FORMAT(create_at, '%Y-%m-%d %H:%i') AS create_at 
+                    FROM users  ". $where ." 
+                    ORDER BY idx DESC LIMIT ".$start.",".$limit;     // 1페이지면 0, 5, 2페이지면 5, 5, 10, 5, 10, 5
+                    
+            $stmt = $this->conn->prepare($sql);
+
+            if($where != ''){
+                $stmt->bindParam(':sf', $paramArr['sf']);
+            }
+
+            $stmt->setFetchMode(PDO::FETCH_ASSOC);
+            $stmt->execute();
+            return $stmt->fetchAll();
+        }
+
+        public function total($paramArr){
+
+            $where = "";
+
+            if($paramArr['sn'] != '' && $paramArr['sf'] != ''){
+                switch($paramArr['sn']){
+                    case 1 : $sn_str = 'name'; break;
+                    case 2 : $sn_str = 'id'; break;
+                    case 3 : $sn_str = 'email'; break;
+                }
+
+                $where = "  WHERE ".$sn_str."=:sf ";
+            }
+
+            $sql = "SELECT COUNT(*) cnt FROM users ". $where;
+            $stmt = $this->conn->prepare($sql);
+
+            if($where != ''){
+                $stmt->bindParam(':sf', $paramArr['sf']);
+            }
+
+            $stmt->setFetchMode(PDO::FETCH_ASSOC);
+            $stmt->execute();
+            $row = $stmt->fetch();
+            return $row['cnt'];
+        }
+
+
+        // 회원 목록
+        public function getAllData(){
+
+            $sql = "SELECT * FROM users ORDER BY idx ASC";
+                    
+            $stmt = $this->conn->prepare($sql);
+
+            $stmt->setFetchMode(PDO::FETCH_ASSOC);
+            $stmt->execute();
+            return $stmt->fetchAll();
+        }
+
+        // 회원 삭제
+        public function member_del($idx){
+            $sql = "DELETE FROM users WHERE idx=:idx";
+            $stmt = $this->conn->prepare($sql);
+            $stmt->bindParam(':idx', $idx);
+            $stmt->execute();
+        }
     }
 ?>
