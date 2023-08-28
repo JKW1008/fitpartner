@@ -1,4 +1,6 @@
 <?php
+    
+
     class Member{
         // 멤버 변수, 프로퍼티
         private $conn;
@@ -90,7 +92,17 @@
             session_start();
             session_destroy();
 
-            die('<script>self.location.href="../index.php";</script>');
+            die('<script>self.location.href="../login.php";</script>');
+        }
+
+        //  idx로 정보 가져오기
+        public function getInfoFromIdx($idx){
+            $sql = "SELECT * FROM users WHERE idx=:idx";
+            $stmt = $this->conn->prepare($sql);
+            $stmt->bindParam(":idx", $idx);
+            $stmt->setFetchMode(PDO::FETCH_ASSOC);
+            $stmt->execute();
+            return $stmt->fetch();
         }
 
         // 정보 가져오기
@@ -113,7 +125,6 @@
                 ':addr1' => $marr['addr1'],
                 ':addr2' => $marr['addr2'],
                 ':photo' => $marr['photo'],
-                ':id' => $marr['id']
             ];
         
             if($marr['password'] != ''){
@@ -122,9 +133,16 @@
                 $params[':password'] = $new_hash_password;
                 $sql .= ", password=:password"; // 비밀번호 업데이트할 때만 추가
             }
-        
-            $sql .= " WHERE id=:id";
-        
+
+            if($_SESSION['ses_level'] == 10 && isset($_marr['idx']) && $marr['idx'] != ''){
+                $params[':level'] = $marr['level'];
+                $params[':idx'] = $marr['idx'];
+                $sql .= ", level=:level";
+                $sql .= " WHERE idx=:idx";
+            }else{
+                $params[':id'] = $marr['id'];
+                $sql .= " WHERE id=:id";
+            }
             $stmt = $this->conn->prepare($sql);
             $stmt->execute($params);
         }
@@ -205,6 +223,22 @@
             $stmt = $this->conn->prepare($sql);
             $stmt->bindParam(':idx', $idx);
             $stmt->execute();
+        }
+
+        //  프로필 이미지 업로드
+        public function profile_upload($id, $new_photo, $old_photo = ''){
+            if ($old_photo != '') {
+                unlink(PROFILE_DIR ."/". $old_photo);
+                // unlink(PROFILE_DIR . $old_photo); //  삭제
+            }
+        
+            $tmparr = explode('.', $new_photo['name']);
+            $ext = end($tmparr);
+            $photo = $id . '.' . $ext;
+        
+            copy($new_photo['tmp_name'], PROFILE_DIR ."/". $photo);
+        
+            return $photo;
         }
     }
 ?>

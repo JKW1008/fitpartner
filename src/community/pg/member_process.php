@@ -8,13 +8,15 @@
 
     $mem = new Member($db);
 
-    $id      = (isset($_POST['id'      ]) && $_POST['id'      ] != '') ? $_POST['id'      ] : '';
-    $email   = (isset($_POST['email'   ]) && $_POST['email'   ] != '') ? $_POST['email'   ] : '';
-    $name    = (isset($_POST['name'    ]) && $_POST['name'    ] != '') ? $_POST['name'    ] : '';
-    $password= (isset($_POST['password']) && $_POST['password'] != '') ? $_POST['password'] : '';
-    $zipcode = (isset($_POST['zipcode' ]) && $_POST['zipcode' ] != '') ? $_POST['zipcode' ] : '';
-    $addr1   = (isset($_POST['addr1'   ]) && $_POST['addr1'   ] != '') ? $_POST['addr1'   ] : '';
-    $addr2   = (isset($_POST['addr2'   ]) && $_POST['addr2'   ] != '') ? $_POST['addr2'   ] : '';
+    $id       = (isset($_POST['id'       ]) && $_POST['id'       ] != '') ? $_POST['id'        ] : '';
+    $email    = (isset($_POST['email'    ]) && $_POST['email'    ] != '') ? $_POST['email'     ] : '';
+    $name     = (isset($_POST['name'     ]) && $_POST['name'     ] != '') ? $_POST['name'      ] : '';
+    $password = (isset($_POST['password' ]) && $_POST['password' ] != '') ? $_POST['password'  ] : '';
+    $zipcode  = (isset($_POST['zipcode'  ]) && $_POST['zipcode'  ] != '') ? $_POST['zipcode'   ] : '';
+    $addr1    = (isset($_POST['addr1'    ]) && $_POST['addr1'    ] != '') ? $_POST['addr1'     ] : '';
+    $addr2    = (isset($_POST['addr2'    ]) && $_POST['addr2'    ] != '') ? $_POST['addr2'     ] : '';
+    $old_photo= (isset($_POST['old_photo']) && $_POST['old_photo'] != '') ? $_POST['$old_photo'] : '';
+
     $mode    = (isset($_POST['mode'    ]) && $_POST['mode'    ] != '') ? $_POST['mode'    ] : '';
 
     // 아이디 중복체크
@@ -52,8 +54,8 @@
         // Profile Image 처리
         $photo = ''; 
         if(isset($_FILES['photo']) && $_FILES['photo']['name'] != ''){
-            $extArray = explode('.', $_FILES['photo']['name']);
-            $ext = end($extArray);
+            $tmparr = explode('.', $_FILES['photo']['name']);
+            $ext = end($tmparr);
             $photo = $id.'.'.$ext; 
 
             copy($_FILES['photo']['tmp_name'], "../data/profile/".$photo);
@@ -82,20 +84,10 @@
     
     }else if($mode == 'edit'){
         // Profile Image 처리
-        $old_photo = (isset($_POST['old_photo']) && $_POST['old_photo'] != '') ? $_POST['$old_photo'] : '';
         
         if (isset($_FILES['photo']) && $_FILES['photo']['name'] != '') {
-            if ($old_photo != '') {
-                unlink("../data/profile/" . $old_photo);
-            }
-        
-            $extArray = explode('.', $_FILES['photo']['name']);
-            $ext = end($extArray);
-            $photo = $id . '.' . $ext;
-        
-            copy($_FILES['photo']['tmp_name'], "../data/profile/" . $photo);
-        
-            $old_photo = $photo;
+            $new_photo = $_FILES['photo'];
+            $old_photo = $mem->profile_upload($id, $new_photo, $old_photo);
         }
         session_start();
 

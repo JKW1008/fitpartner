@@ -203,6 +203,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }).open();
   });
 
+  //  프로필 이미지 변경시 미리보기 기능
   const f_photo = document.querySelector("#f_photo");
   f_photo.addEventListener("change", (e) => {
     const reader = new FileReader();
