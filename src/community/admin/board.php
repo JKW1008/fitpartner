@@ -10,7 +10,7 @@
 
     $db = $pdo;
 
-    include '../inc/member.php';    // 회원관리 Class
+    include '../inc/board.php';    // 회원관리 Class
 
     $sn = (isset($_GET['sn']) && $_GET['sn'] != '' && is_numeric($_GET['sn'])) ? $_GET['sn'] : '';
     $sf = (isset($_GET['sf']) && $_GET['sf'] != '') ? $_GET['sf'] : '';
@@ -18,9 +18,6 @@
     $paramArr = [ 'sn' => $sn, 'sf' => $sf];
 
     $board = new Board($db);
-
- 
-
 
     $boardArr = $board->list();
 ?>
@@ -32,6 +29,7 @@
         <tr>
             <th>번호</th>
             <th>게시판 이름</th>
+            <th>게시판 코드</th>
             <th>게시판 타입</th>
             <th>게시물 수</th>
             <th>등록일시</th>
@@ -45,6 +43,7 @@
         <tr>
             <td><?= $row['idx']; ?></td>
             <td><?= $row['name']; ?></td>
+            <td><?= $row['bcode']; ?></td>
             <td><?= $row['btype']; ?></td>
             <td><?= $row['cnt']; ?></td>
             <td><?= $row['create_at']; ?></td>
@@ -57,24 +56,6 @@
             }
         ?>
     </table>
-    <div class="container mt-3 d-flex gap-2 w-50">
-        <select name="sn" id="sn" class="form-select w-25">
-            <option value="1">이름</option>
-            <option value="2">아이디</option>
-            <option value="3">이메일</option>
-        </select>
-        <input type="text" class="form-control w-25" id="sf" name="sf">
-        <button class="btn btn-primary w-25" id="btn_search">검색</button>
-        <button class="btn btn-success w-25" id="btn_all">전체목록</button>
-    </div>
-    <div class="d-flex mt-3 justify-content-between align-items-start">
-        <?php
-            $param = '&sn='. $sn. '&sf='. $sf;
-
-            echo my_pagination($total, $limit, $page_limit, $page, $param);
-        ?>
-        <button class="btn btn-primary" id="btn_excel">엑셀로 저장</button>
-    </div>
 </main>
 <?php
     include 'inc_footer.php';
