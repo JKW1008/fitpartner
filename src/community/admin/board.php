@@ -1,6 +1,6 @@
 <?php
-    $g_title = '회원가입을 축하드립니다.';
-    $js_array = ['js/member.js'];
+    $g_title = '게시판 관리';
+    $js_array = ['js/board.js'];
 
     $menu_code = 'board';
 
@@ -11,11 +11,6 @@
     $db = $pdo;
 
     include '../inc/board.php';    // 회원관리 Class
-
-    $sn = (isset($_GET['sn']) && $_GET['sn'] != '' && is_numeric($_GET['sn'])) ? $_GET['sn'] : '';
-    $sf = (isset($_GET['sf']) && $_GET['sf'] != '') ? $_GET['sf'] : '';
-
-    $paramArr = [ 'sn' => $sn, 'sf' => $sf];
 
     $board = new Board($db);
 
@@ -56,7 +51,32 @@
             }
         ?>
     </table>
+    <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#board_create_modal"
+        id="btn_create_modal">게시판 생성</button>
 </main>
+
+<!-- Modal -->
+<div class="modal fade" id="board_create_modal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="exampleModalLabel">게시판 생성</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body d-flex gap-2">
+                <input type="text" id="board_title" class="form-control" placeholder="게시판 이름">
+                <select name="" id="board_type" class="form-select">
+                    <option value="board">게시판</option>
+                    <option value="gallery">갤러리</option>
+                </select>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" id="btn_board_create">생성</button>
+            </div>
+        </div>
+    </div>
+</div>
 <?php
     include 'inc_footer.php';
 ?>

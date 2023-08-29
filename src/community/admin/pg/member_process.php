@@ -4,6 +4,7 @@
     include "../../inc/dbconfig.php";
 
     $db = $pdo;
+    
 
     include "../../inc/member.php";    // Member 클래스파일
 

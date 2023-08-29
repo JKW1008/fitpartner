@@ -8,5 +8,4 @@
 
 include "inc/dbconfig.php";
 
-print_r(PROFILE_DIR);
 ?>

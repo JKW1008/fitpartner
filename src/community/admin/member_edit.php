@@ -1,5 +1,5 @@
 <?php
-    $g_title = '회원가입을 축하드립니다.';
+    $g_title = '회원정보 수정페이지';
     $js_array = ['js/member_edit.js'];
 
     $menu_code = 'member';
