@@ -55,6 +55,19 @@
         die(json_encode($arr));
 
     }else if($mode == 'edit'){
+        if($idx == ''){
+            $arr = [ 'result' => 'empty_idx' ];
+            die(json_encode($arr));
+        }
+
+    }else if($mode == 'getInfo'){
+        if($idx == ''){
+            $arr = [ 'result' => 'empty_idx' ];
+            die(json_encode($arr));
+        }
+
+        $row = $board->getInfo($idx);
         
+        print_r($row);
     }
 ?>

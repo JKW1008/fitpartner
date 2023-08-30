@@ -72,5 +72,15 @@
 
             return $bcode;
         }
+
+        //  게시판 정보 불러오기
+        public function getInfo($idx){
+            $sql = "SELECT * FROM fitboard_manage WHERE idx=:idx";
+            $stmt = $this->conn->prepare($sql);
+            $stmt->bindValue(':idx', $idx);
+            $stmt->setFetchMode(PDO::FETCH_ASSOC);
+            $stmt->execute();
+            return $stmt->fetch();
+        }
     }
 ?>
