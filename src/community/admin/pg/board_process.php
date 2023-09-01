@@ -5,7 +5,7 @@
 
     $db = $pdo;
     
-    include "../../inc/board.php";  //  게시판 Class
+    include "../../inc/board_manage.php";  //  게시판 Class
 
     $board_title = (isset($_POST['board_title']) && $_POST['board_title'] != '') ? $_POST['board_title'] : '';
     $board_type  = (isset($_POST['board_type' ]) && $_POST['board_type' ] != '') ? $_POST['board_type' ] : '';
@@ -18,7 +18,7 @@
         die(json_encode($arr));
     }
 
-    $board = new Board($db);
+    $board = new BoardManage($db);
 
     //  게시판 생성
     if($mode == 'input'){
@@ -46,19 +46,40 @@
 
         $arr = ["result" => "success"];
         die(json_encode($arr));
-
-    }else if($mode == 'delete'){
-        //  게시판 삭제
+        
+    }else if($mode == 'delete'){    //  게시판 삭제
         $board->delete($idx);
 
         $arr = ["result" => "success"];
         die(json_encode($arr));
 
-    }else if($mode == 'edit'){
+    }else if($mode == 'edit'){      // 게시판 수정
         if($idx == ''){
             $arr = [ 'result' => 'empty_idx' ];
             die(json_encode($arr));
         }
+
+        if($board_title == ''){
+            $arr = [ 'result' => 'title_empty' ];
+            die(json_encode($arr));
+        }
+
+        if($board_type == ''){
+            $arr = [ 'result' => 'btype_empty' ];
+            die(json_encode($arr));
+        }
+
+         //  게시판 수정
+         $arr = [
+            "name" => $board_title,
+            "btype" => $board_type,
+            "idx" => $idx
+        ];
+    
+        $board->update($arr); 
+
+        $arr = ["result" => "edit_success"];
+        die(json_encode($arr));
 
     }else if($mode == 'getInfo'){
         if($idx == ''){
@@ -68,6 +89,7 @@
 
         $row = $board->getInfo($idx);
         
-        print_r($row);
+        $arr = [ "result" => "success", "list" => $row ];
+        die(json_encode($arr));
     }
 ?>

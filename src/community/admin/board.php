@@ -10,9 +10,9 @@
 
     $db = $pdo;
 
-    include '../inc/board.php';    // 회원관리 Class
+    include '../inc/board_manage.php';    // 회원관리 Class
 
-    $board = new Board($db);
+    $board = new BoardManage($db);
 
     $boardArr = $board->list();
 ?>
@@ -43,6 +43,7 @@
             <td><?= $row['cnt']; ?></td>
             <td><?= $row['create_at']; ?></td>
             <td>
+                <button class="btn btn-success btn-sm btn_board_view" data-bcode="<?= $row['bcode']; ?>">보기</button>
                 <button class="btn btn-primary btn-sm btn_board_edit" data-bs-toggle="modal"
                     data-bs-target="#board_create_modal" data-idx="<?= $row['idx']; ?>">수정</button>
                 <button class="btn btn-danger btn-sm btn_board_delete" data-idx="<?= $row['idx']; ?>">삭제</button>
@@ -61,8 +62,9 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h1 class="modal-title fs-5" id="exampleModalLabel">게시판 생성</h1>
+                <h1 class="modal-title fs-5" id="modatTitle">게시판 생성</h1>
                 <input type="hidden" name="mode" id="board_mode" value="">
+                <input type="hidden" name="idx" id="board_idx" value="">
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body d-flex gap-2">
@@ -73,8 +75,8 @@
                 </select>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary" id="btn_board_create">생성</button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>
+                <button type="button" class="btn btn-primary" id="btn_board_create">확인</button>
             </div>
         </div>
     </div>

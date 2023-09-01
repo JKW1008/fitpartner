@@ -1,6 +1,8 @@
 document.addEventListener("DOMContentLoaded", () => {
   const btn_board_create = document.querySelector("#btn_board_create");
   const board_title = document.querySelector("#board_title");
+  const board_type = document.querySelector("#board_type");
+  const board_idx = document.querySelector("#board_idx");
 
   btn_board_create.addEventListener("click", () => {
     if (board_title.value == "") {
@@ -17,8 +19,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const f = new FormData();
     f.append("board_title", board_title.value);
-    f.append("board_type", document.querySelector("#board_type").value);
+    f.append("board_type", board_type.value);
     f.append("mode", board_mode.value);
+    f.append("idx", board_idx.value);
 
     xhr.open("POST", "./pg/board_process.php", true);
     xhr.send(f);
@@ -27,19 +30,26 @@ document.addEventListener("DOMContentLoaded", () => {
         const data = JSON.parse(xhr.responseText);
         if (data.result == "mode_empty") {
           alert("Mode 값이 누락되었습니다.");
+          btn_board_create.disabled = false;
           return false;
         } else if (data.result == "title_empty") {
           alert("게시판 명이 누락되었습니다.");
           board_title.focus();
+          btn_board_create.disabled = false;
           return false;
         } else if (data.result == "btype_empty") {
           alert("게시판 타입이 누락되었습니다.");
+          btn_board_create.disabled = false;
           return false;
         } else if (data.result == "success") {
           alert("게시판이 생성되었습니다.");
           self.location.reload();
+        } else if (data.result == "edit_success") {
+          alert("게시판이 수정되었습니다.");
+          self.location.reload();
         }
       } else {
+        btn_board_create.disabled = false;
         alert("통신실패" + xhr.status);
       }
     };
@@ -52,13 +62,23 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const board_mode = document.querySelector("#board_mode");
     board_mode.value = "input";
+
+    document.querySelector("#modatTitle").textContent = "게시판 생성";
   });
 
   //    수정버튼 클릭
   const btn_board_edit = document.querySelectorAll(".btn_board_edit");
   btn_board_edit.forEach((box) => {
     box.addEventListener("click", () => {
+      document.querySelector("#modatTitle").textContent = "게시판 수정";
+
+      const board_mode = document.querySelector("#board_mode");
+      board_mode.value = "edit";
+
       const idx = box.dataset.idx;
+
+      board_idx.value = idx;
+
       const f = new FormData();
 
       f.append("idx", idx);
@@ -75,6 +95,9 @@ document.addEventListener("DOMContentLoaded", () => {
           if (data.result == "empty_idx") {
             alert("idx 값이 누락되었습니다.");
             return false;
+          } else if (data.result == "success") {
+            board_title.value = data.list.name;
+            board_type.value = data.list.btype;
           }
         } else {
           alert("통신실패 : " + xhr.status);
@@ -83,7 +106,15 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   });
 
-  //    삭제버튼 클릭
+  //  해당 게시판으로 이동
+  const btn_board_view = document.querySelectorAll(".btn_board_view");
+  btn_board_view.forEach((box) => {
+    box.addEventListener("click", () => {
+      self.location.href = "../board.php?bcode=" + box.dataset.bcode;
+    });
+  });
+
+  //  삭제버튼 클릭
   const btn_board_delete = document.querySelectorAll(".btn_board_delete");
   btn_board_delete.forEach((box) => {
     box.addEventListener("click", () => {

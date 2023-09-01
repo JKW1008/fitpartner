@@ -1,8 +1,5 @@
 <?php
-    session_start();
-
-    $ses_id    = (isset($_SESSION['ses_id'   ]) && $_SESSION['ses_id'   ] != '') ? $_SESSION['ses_id'   ] : '';
-    $ses_level = (isset($_SESSION['ses_level']) && $_SESSION['ses_level'] != '') ? $_SESSION['ses_level'] : '';
+    include './inc/common.php';
 
     $g_title = '메인';
     $js_array = ['js/home.js'];
