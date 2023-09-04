@@ -27,15 +27,27 @@
         public function list($bcode, $page, $limit, $paramArr){
             $start = ($page - 1) * $limit;
             $where = "WHERE bcode=:bcode ";
-
+            $params = [ ':bcode' => $bcode ];
             if(isset($paramArr['sn']) && $paramArr['sn'] != '' && isset($paramArr['sf']) && $paramArr['sf'] != ''){
                 switch($paramArr['sn']){
-                    case 1 : $sn_str = 'name'; break;
-                    case 2 : $sn_str = 'id'; break;
-                    case 3 : $sn_str = 'email'; break;
+                        case 1 : 
+                            $where .= "AND (subject LIKE CONCAT('%', :sf, '%') OR (content LIKE CONCAT('%', :sf2, '%'))) "; 
+                            $params = [ ':bcode' => $bcode, ':sf' => $paramArr['sf'], ':sf2' => $paramArr['sf']];
+                            break;  //  제목 + 내용
+                        case 2 :    
+                            $where .= "AND (subject LIKE CONCAT('%', :sf, '%')) "; 
+                            $params = [ ':bcode' => $bcode, ':sf' => $paramArr['sf'] ];
+                            break;  //  제목
+                        case 3 : 
+                            $where .= "AND (content LIKE CONCAT('%', :sf, '%')) "; 
+                            $params = [ ':bcode' => $bcode, ':sf' => $paramArr['sf'] ];
+                            break;  //  내용
+                        case 4 : 
+                            $where .= "AND (name=:sf) "; 
+                            $params = [ ':bcode' => $bcode, ':sf' => $paramArr['sf'] ];
+                            break;  //  글쓴이
                 }
 
-                $where .= " ". $sn_str."=:sf ";
             }
 
             $sql = "SELECT idx, id, subject, name, hit, DATE_FORMAT(create_at, '%Y-%m-%d %H:%i') AS create_at 
@@ -44,14 +56,8 @@
                     
             $stmt = $this->conn->prepare($sql);
 
-            $stmt->bindValue(':bcode', $bcode);
-
-            if(isset($paramArr['sf']) && $paramArr['sf'] != ''){
-                $stmt->bindValue(':sf', $paramArr['sf']);
-            }
-
             $stmt->setFetchMode(PDO::FETCH_ASSOC);
-            $stmt->execute();
+            $stmt->execute($params);
             return $stmt->fetchAll();
         }
 
@@ -59,27 +65,35 @@
         public function total($bcode, $paramArr){
 
             $where = "WHERE bcode=:bcode ";
-
+            $params = [ ':bcode' => $bcode ];
             if(isset($paramArr['sn']) && $paramArr['sn'] != '' && isset($paramArr['sf']) && $paramArr['sf'] != ''){
                 switch($paramArr['sn']){
-                    case 1 : $sn_str = 'name'; break;
-                    case 2 : $sn_str = 'id'; break;
-                    case 3 : $sn_str = 'email'; break;
+                        case 1 : 
+                            $where .= "AND (subject LIKE CONCAT('%', :sf, '%') OR (content LIKE CONCAT('%', :sf2, '%'))) "; 
+                            $params = [ ':bcode' => $bcode, ':sf' => $paramArr['sf'], ':sf2' => $paramArr['sf']];
+                            break;  //  제목 + 내용
+                        case 2 :    
+                            $where .= "AND (subject LIKE CONCAT('%', :sf, '%')) "; 
+                            $params = [ ':bcode' => $bcode, ':sf' => $paramArr['sf'] ];
+                            break;  //  제목
+                        case 3 : 
+                            $where .= "AND (content LIKE CONCAT('%', :sf, '%')) "; 
+                            $params = [ ':bcode' => $bcode, ':sf' => $paramArr['sf'] ];
+                            break;  //  내용
+                        case 4 : 
+                            $where .= "AND (name=:sf) "; 
+                            $params = [ ':bcode' => $bcode, ':sf' => $paramArr['sf'] ];
+                            break;  //  글쓴이
                 }
 
-                $where .= "AND ". $sn_str."=:sf ";
             }
 
-            $sql = "SELECT COUNT(*) cnt FROM fitboard ". $where;
+            $sql = "SELECT COUNT(*) AS cnt
+                    FROM fitboard  ". $where;                    
             $stmt = $this->conn->prepare($sql);
-            $stmt->bindValue(':bcode', $bcode);
-
-            if(isset($paramArr['sf']) && $paramArr['sf'] != ''){
-                $stmt->bindValue(':sf', $paramArr['sf']);
-            }
 
             $stmt->setFetchMode(PDO::FETCH_ASSOC);
-            $stmt->execute();
+            $stmt->execute($params);
             $row = $stmt->fetch();
             return $row['cnt'];
         }
