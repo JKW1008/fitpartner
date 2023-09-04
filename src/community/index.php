@@ -1,5 +1,14 @@
 <?php
     include './inc/common.php';
+    include './inc/dbconfig.php';
+
+    $db = $pdo;
+
+    //  게시판 목록
+    include './inc/board_manage.php';
+
+    $boardm = new BoardManage($db);
+    $boardArr = $boardm->list();
 
     $g_title = '메인';
     $js_array = ['js/home.js'];
