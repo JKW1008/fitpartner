@@ -48,10 +48,15 @@
 
     include 'inc_header.php';
 ?>
+<style>
+.tr {
+    cursor: pointer;
+}
+</style>
 <main class="w-100 mx-auto border rounded-2 p-5 mt-5 mb-5">
     <h1 class="text-center h1 mt-5"><?= $board_name; ?></h1>
 
-    <table class="table striped mt-5">
+    <table class="table striped table-hover mt-5">
         <colgroup>
             <col width="10%">
             <col width="45%">
@@ -67,10 +72,14 @@
             <th>조회 수</th>
         </tr>
         <?php
+            $cnt = 0;
+            $ntotal = $total - ($page - 1) * $limit;
             foreach($boardRs AS $boardRow){
+                $number = $ntotal - $cnt;
+                $cnt++;
         ?>
-        <tr>
-            <td><?= $boardRow['idx'      ]; ?></td>
+        <tr class="tr" data-idx="<?= $boardRow['idx']; ?>">
+            <td><?= $number; ?></td>
             <td><?= $boardRow['subject'  ]; ?></td>
             <td><?= $boardRow['name'     ]; ?></td>
             <td><?= $boardRow['create_at']; ?></td>
@@ -82,20 +91,20 @@
     </table>
     <div class="container mt-3 w-50 d-flex gap-2 justify-content-center">
         <select id="sn" class="form-select w-25">
-            <option value="1">제목+내용</option>
-            <option value="2">제목</option>
-            <option value="3">내용</option>
-            <option value="4">글쓴이</option>
+            <option value="1" <?php if($sn == 1) echo 'selected'; ?>>제목+내용</option>
+            <option value="2" <?php if($sn == 2) echo 'selected'; ?>>제목</option>
+            <option value="3" <?php if($sn == 3) echo 'selected'; ?>>내용</option>
+            <option value="4" <?php if($sn == 4) echo 'selected'; ?>>글쓴이</option>
         </select>
-        <input type="text" class="form-control w-25" id="sf" value="">
-        <button class="btn btn-primary" id="btn_search">검색</button>
+        <input type="text" class="form-control w-25" id="sf" value="<?= $sf; ?>">
+        <button class="btn btn-primary w-25" id="btn_search">검색</button>
+        <button class="btn btn-info w-25" id="btn_all">전체목록</button>
     </div>
     <div class="d-flex justify-content-between align-items-start">
         <?php
             $param = '&bcode=' . $bcode;
-
             if(isset($sn) && $sn != '' && isset($sf) && $sf != ''){
-                $param = '&sn='. $sn. '&sf='. $sf;
+                $param .= '&sn='. $sn. '&sf='. $sf;
             }
 
             echo my_pagination($total, $limit, $page_limit, $page, $param);

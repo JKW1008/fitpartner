@@ -12,13 +12,16 @@ function getUrlParams() {
 }
 
 document.addEventListener("DOMContentLoaded", () => {
-  const btn_write = document.querySelector("#btn_write");
+  //  window.location.search  값
   const params = getUrlParams();
 
+  //  글쓰기 버튼
+  const btn_write = document.querySelector("#btn_write");
   btn_write.addEventListener("click", () => {
     self.location.href = "./board_write.php?bcode=" + params["bcode"];
   });
 
+  //  검색 버튼
   const btn_search = document.querySelector("#btn_search");
   btn_search.addEventListener("click", () => {
     const sf = document.querySelector("#sf");
@@ -35,5 +38,20 @@ document.addEventListener("DOMContentLoaded", () => {
       sn.value +
       "&sf=" +
       sf.value;
+  });
+
+  //  전체 목록 버튼
+  const btn_all = document.querySelector("#btn_all");
+  btn_all.addEventListener("click", () => {
+    self.location.href = "./board.php?bcode=" + params["bcode"];
+  });
+
+  //  글 보기
+  const trs = document.querySelectorAll(".tr");
+  trs.forEach((box) => {
+    box.addEventListener("click", () => {
+      self.location.href =
+        "./board_view.php?bcode=" + params["bcdoe"] + "&idx=" + box.dataset.idx;
+    });
   });
 });
