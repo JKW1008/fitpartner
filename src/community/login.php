@@ -1,6 +1,6 @@
 <?php
 
-    $g_title = '로그인.';
+    $g_title = '로그인';
     $js_array = ['js/login.js'];
 
     $menu_code = 'login';

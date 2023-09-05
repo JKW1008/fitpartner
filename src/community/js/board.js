@@ -51,7 +51,7 @@ document.addEventListener("DOMContentLoaded", () => {
   trs.forEach((box) => {
     box.addEventListener("click", () => {
       self.location.href =
-        "./board_view.php?bcode=" + params["bcdoe"] + "&idx=" + box.dataset.idx;
+        "./board_view.php?bcode=" + params["bcode"] + "&idx=" + box.dataset.idx;
     });
   });
 });

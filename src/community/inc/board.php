@@ -98,6 +98,64 @@
             return $row['cnt'];
         }
 
+        //  글 보기
+        public function view($idx){
+            $sql = "SELECT * FROM fitboard WHERE idx=:idx";
+            $stmt = $this->conn->prepare($sql);
+            $params = [ ":idx" => $idx ];
+            $stmt->setFetchMode(PDO::FETCH_ASSOC);
+            $stmt->execute($params);
+            return $stmt->fetch();
+        }
 
+        //  글 조회수 +1
+        public function hitInc($idx){
+            $sql = "UPDATE fitboard SET hit=hit+1 WHERE idx=:idx";
+            $stmt = $this->conn->prepare($sql);
+            $params = [ ":idx" => $idx ];
+            $stmt->execute($params);
+        }
+
+        //  첨부파일 구하기
+        public function getAttachFile($idx, $th){
+            $sql = "SELECT files FROM fitboard WHERE idx=:idx";
+            $stmt = $this->conn->prepare($sql);
+            $params = [ ":idx" => $idx ];
+            $stmt->setFetchMode(PDO::FETCH_ASSOC);
+            $stmt->execute($params);
+            $row = $stmt->fetch();
+
+            $filelist = explode('?', $row['files']);
+
+            return $filelist[$th] .'|'. count($filelist);
+        }
+
+        //  다운로드 횟수 구하기
+        public function getDownhit($idx){
+            $sql = "SELECT downhit FROM fitboard WHERE idx=:idx";
+            $stmt = $this->conn->prepare($sql);
+            $params = [ ":idx" => $idx ];
+            $stmt->setFetchMode(PDO::FETCH_ASSOC);
+            $stmt->execute($params);
+            $row = $stmt->fetch();
+
+            return $row['downhit'];
+        }
+
+        //  다운로드 횟수 증가 시키기
+        public function increaseDownhit($idx, $downhit){
+            $sql = "UPDATE fitboard SET downhit=:downhit WHERE idx=:idx";
+            $stmt = $this->conn->prepare($sql);
+            $params = [ ":downhit" => $downhit, ":idx" => $idx ];
+            $stmt->execute($params);
+        }
+
+        //  last_reader 값 변경
+        public function updateLastReader($idx, $str){
+            $sql = "UPDATE fitboard SET last_reader=:last_reader WHERE idx=:idx";
+            $stmt = $this->conn->prepare($sql);
+            $params = [ ":last_reader" => $str, ":idx" => $idx];
+            $stmt->execute($params);
+        }
     }
 ?>

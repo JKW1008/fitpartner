@@ -1,0 +1,232 @@
+@font-face {
+  font-family: "Pretendard-Regular";
+  src: url("https://cdn.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Regular.woff")
+    format("woff");
+  font-weight: 200;
+  font-style: normal;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  /* border: 1px solid black; */
+  font-family: "pretendard-Regular";
+}
+.content {
+  max-width: 1440px;
+  margin: 0 auto;
+}
+
+/* 해더 */
+header {
+  display: flex;
+  width: 100%;
+  height: 90px;
+  background-color: black;
+  position: fixed;
+  z-index: 22;
+}
+a {
+  text-decoration: none;
+  color: white;
+}
+.container {
+  max-width: 1440px;
+  width: 100%;
+  margin: 0 auto;
+  padding: 0 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.container img {
+  width: 50%;
+  height: 70%;
+  margin-top: 13px;
+}
+.container nav {
+  width: 70%;
+}
+.container nav ul {
+  display: flex;
+  justify-content: space-between;
+  font-size: 1.3em;
+  width: 100%;
+  /* line-height: 90px; */
+}
+
+.container nav ul li {
+  list-style: none;
+  width: 100%;
+  color: white;
+  cursor: pointer;
+}
+.container nav ul li:hover {
+  color: #ec6300;
+}
+
+/* 토글메뉴 */
+.menutoggle {
+  display: none;
+  margin: 30px 10px;
+}
+#menuicon {
+  display: none;
+}
+#menuicon + label {
+  display: block;
+  width: 30px;
+  height: 30px;
+  position: relative;
+  cursor: pointer;
+}
+#menuicon + label span {
+  display: block;
+  position: absolute;
+  width: 100%;
+  height: 5px;
+  border-radius: 30px;
+  background: linear-gradient(155deg, #0cc7d3 0%, #0c50b5 100%);
+  transition: all 0.35s;
+  z-index: 100;
+}
+#menuicon + label span:nth-child(1) {
+  top: 0;
+}
+#menuicon + label span:nth-child(2) {
+  top: 50%;
+  transform: translateY(-50%);
+}
+#menuicon + label span:nth-child(3) {
+  bottom: 0;
+}
+#menuicon:checked + label span {
+  background: #ec6300;
+}
+#menuicon:checked + label span:nth-child(1) {
+  top: 50%;
+  transform: translateY(-50%) rotate(45deg);
+}
+#menuicon:checked + label span:nth-child(2) {
+  opacity: 0;
+}
+#menuicon:checked + label span:nth-child(3) {
+  bottom: 50%;
+  transform: translateY(50%) rotate(-45deg);
+}
+.sidebar {
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 15, 37, 0.9);
+  position: fixed;
+  top: 0px;
+  right: -1000px;
+  z-index: 1;
+  transition: all 0.35s;
+}
+.sidebar .logo {
+  color: #ec6300;
+  font-size: 2em;
+  font-weight: 900;
+  position: absolute;
+  top: 30px;
+  left: 20px;
+  /* display: none; */
+}
+
+.sidebar ul {
+  margin-top: 150px;
+  color: white;
+}
+.sidebar ul li {
+  text-align: end;
+  border-bottom: 1px solid #ec6300;
+  padding-top: 40px;
+  padding-bottom: 20px;
+  font-size: 2em;
+  padding-right: 5%;
+}
+.sidebar ul li:hover {
+  color: #ec6300;
+}
+#menuicon:checked + label + div {
+  right: 0;
+}
+
+@media screen and (max-width: 1024px) {
+  .container img {
+    width: 28%;
+  }
+  .navMenu {
+    display: none;
+  }
+  .menutoggle {
+    display: block;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .container img {
+    width: 40%;
+  }
+}
+
+/* 푸터 */
+footer {
+  background: #f3f3f3;
+}
+.footer_container {
+  max-width: 1440px;
+  width: 100%;
+  margin: 0 auto;
+  color: #666;
+  /* height: 400px; */
+}
+.footer_itemBox1 {
+  width: 100%;
+  padding-bottom: 40px;
+  border-bottom: 1px solid #a7a7a7;
+}
+.footer_itemBox1 img {
+  padding: 20px 0;
+}
+.footer_itemBox2 {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+}
+.footer_itemBox2 .footer_item1 {
+  padding-top: 30px;
+}
+.footer_itemBox2 .footer_item2 {
+  padding: 20px 0;
+  display: flex;
+  gap: 30px;
+}
+@media screen and (max-width: 1440px) {
+  .container {
+    width: 90%;
+  }
+  .footer_container {
+    max-width: 90%;
+  }
+}
+/* 모바일 */
+@media screen and (max-width: 768px) {
+  .footer_container {
+    max-width: 90%;
+  }
+  .footer_itemBox2 {
+    display: flex;
+    flex-direction: column;
+  }
+  .footer_itemBox2 .footer_item2 {
+    display: flex;
+    gap: 14px;
+  }
+  .footer_itemBox2 .footer_item2 img {
+    width: 50px;
+  }
+}

@@ -1,0 +1,134 @@
+.becomeMainImg {
+  width: 100%;
+  height: 100vh;
+  background-image: url("../images/become/becomeMain.png");
+  background-size: cover;
+  background-position: center;
+}
+
+.becomeMainImg .formwrap {
+  padding-top: 150px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  max-width: 660px;
+  width: 100%;
+  margin: 0 auto;
+}
+.becomeMainImg .formwrap form {
+  width: 100%;
+  background-color: rgba(232, 232, 232, 0.75);
+  border-radius: 30px;
+  text-align: center;
+  color: #434447;
+  transition: 0.5s;
+}
+.becomeMainImg .formwrap form h4 {
+  font-size: 1.25rem;
+  font-weight: 200;
+  padding: 50px 0 15px 0;
+}
+.becomeMainImg .formwrap form div {
+  position: relative;
+}
+.becomeMainImg .formwrap form div p {
+  font-size: 0.75rem;
+  padding-bottom: 40px;
+}
+.becomeMainImg .formwrap form div i {
+  position: absolute;
+  top: 35%;
+  right: 8%;
+  font-size: 1.5rem;
+}
+.becomeMainImg .formwrap form div i.fa-solid.fa-building {
+  top: 30%;
+  font-size: 2rem;
+}
+
+.becomeMainImg .formwrap form input {
+  width: 90%;
+  background-color: transparent;
+  height: 50px;
+  padding-left: 14px;
+  border: none;
+  border-bottom: 1px solid #484848;
+  font-size: 1.25rem;
+  margin: 10px;
+}
+.becomeMainImg .formwrap form input:focus {
+  outline: none;
+}
+.becomeMainImg .formwrap form input::placeholder {
+  font-size: 1.25rem;
+}
+.becomeMainImg .formwrap form textarea {
+  width: 90%;
+  background-color: transparent;
+  height: 50px;
+  padding-left: 14px;
+  border: 1px solid #484848;
+  border-radius: 3px;
+  height: 160px;
+
+  font-size: 1.25rem;
+  margin: 10px;
+}
+.becomeMainImg .formwrap form textarea:focus {
+  outline: none;
+  padding-top: 10px;
+}
+.becomeMainImg .formwrap form textarea:focus::placeholder {
+  color: transparent;
+}
+
+.becomeMainImg .formwrap form textarea::placeholder {
+  font-size: 1.25rem;
+  padding-top: 10px;
+}
+.error {
+  border-bottom: 1px solid red !important;
+  box-shadow: 0 0 10px rgba(255, 0, 0, 0.4) !important;
+}
+.error::placeholder {
+  color: red;
+}
+.becomeMainImg .formwrap form #remember-check {
+  width: 1rem;
+  height: 1rem;
+  margin: 0;
+  vertical-align: top;
+}
+.becomeMainImg .formwrap form label {
+  font-size: 1rem;
+}
+
+.becomeMainImg .formwrap form button {
+  color: white;
+  width: 400px;
+  height: 60px;
+  border: none;
+  font-size: 2rem;
+  border-radius: 5px;
+  background-image: linear-gradient(
+    91deg,
+    #0cc7d3 0%,
+    #0cc7d3 29%,
+    #3481f2 67%,
+    #3481f2 100%
+  );
+  background-origin: border-box;
+  box-shadow: 0px 5px 5px rgba(0, 0, 0, 0.5);
+  margin: 28px 0 16px 0;
+  transition: 0.5s;
+}
+
+@media screen and (max-width: 500px) {
+  .becomeMainImg .formwrap form {
+    border-radius: 0;
+  }
+  .becomeMainImg .formwrap form button {
+    width: 268px;
+    font-size: 1rem;
+  }
+}
