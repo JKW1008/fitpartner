@@ -55,7 +55,7 @@
 
     $js_array = ['js/board_edit.js'];
 
-    $g_title = '글 작성';
+    $g_title = '글 수정';
 
     include 'inc_header.php';
 ?>
@@ -95,9 +95,15 @@
                 }
             ?>
     </div>
+    <?php
+        if($th<3){
+    ?>
     <div class="mt-3">
-        <input type="file" name="attach" id="id_attach" multiple class="form-control">
+        <input type="file" name="attach" id="id_attach" class="form-control">
     </div>
+    <?php
+        }
+    ?>
     <div class="mt-3 d-flex gap-2 justify-content-end">
         <button class="btn btn-primary" id="btn_write_submit">확인</button>
         <button class="btn btn-secondary" id="btn_board_list">목록</button>
