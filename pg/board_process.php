@@ -22,6 +22,8 @@
     $bcode   = (isset($_POST['bcode'  ]) && $_POST['bcode'  ] != '') ? $_POST['bcode'  ] : '';
     $subject = (isset($_POST['subject']) && $_POST['subject'] != '') ? $_POST['subject'] : '';
     $content = (isset($_POST['content']) && $_POST['content'] != '') ? $_POST['content'] : '';
+    $idx     = (isset($_POST['idx'    ]) && $_POST['idx'    ] != '' && is_numeric($_POST['idx'])) ? $_POST['idx'    ] : '';
+    $th      = (isset($_POST['th'     ]) && $_POST['th'     ] != '' && is_numeric($_POST['th'])) ? $_POST['th'     ] : '';
 
     if($mode == ''){
         $arr = [ "result" => "empty_mode" ];
@@ -129,5 +131,29 @@
         $board->input($arr);
 
         die(json_encode([ "result" => "success" ]));
+    }
+    else if($mode == 'each_file_del'){
+
+        if($idx == ''){
+            $arr = [ "result" => "empty_idx" ];
+            die(json_encode($arr));
+        }
+        
+        if($th == ''){
+            $arr = [ "result" => "empty_th" ];
+            die(json_encode($arr));
+        }
+
+        $file = $board->getAttachFile($idx, $th);
+
+        $each_files = explode('|', $file);
+
+        if(file_exists(BOARD_DIR . '/'. $each_files[0])){
+            unlink(BOARD_DIR .'/'. $each_files[0]);
+        }
+
+        // $arr = [ "result" => "success" ];
+        // die(json_encode($arr));
+
     }
 ?>

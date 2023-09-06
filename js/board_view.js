@@ -21,8 +21,18 @@ document.addEventListener("DOMContentLoaded", () => {
 
   //    글 수정 버튼 클릭
   const btn_edit = document.querySelector("#btn_edit");
-  btn_edit.addEventListener("click", () => {
-    self.location.href =
-      "./board_edit.php?bcode=" + params["bcode"] + "&idx=" + params["idx"];
-  });
+  if (btn_edit) {
+    btn_edit.addEventListener("click", () => {
+      self.location.href =
+        "./board_edit.php?bcode=" + params["bcode"] + "&idx=" + params["idx"];
+    });
+  }
+
+  const btn_delete = document.querySelector("#btn_delete");
+  if (btn_delete) {
+    btn_delete.addEventListener("click", () => {
+      if (confirm("삭제하시겠습니까?")) {
+      }
+    });
+  }
 });

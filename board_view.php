@@ -86,7 +86,7 @@
                     foreach($filelist AS $file){
                         list($file_source, $file_name) = explode('|', $file);
 
-                        echo "<a href=\"./pg/boarddownload.php?idx=$idx&th=$th\">$file_name</a> (down: ".$downhit_arr[$th].")<br>";
+                        echo "<div class='w-50 d-flex justify-content-between'><a href=\"./pg/boarddownload.php?idx=$idx&th=$th\">$file_name</a> (down: ".$downhit_arr[$th].")</div>";
                         $th++;
                     }
                 }
@@ -94,9 +94,16 @@
         </div>
         <div class="d-flex gap-2 p-3">
             <button class="btn btn-secondary me-auto" id="btn_list">목록</button>
+            <?php 
+                if($boardRow['id'] == $ses_id){
+            ?>
             <button class="btn btn-primary" id="btn_edit">수정</button>
             <button class="btn btn-danger" id="btn_delete">삭제</button>
+            <?php
+                }  
+            ?>
         </div>
+
     </div>
 </main>
 <?php
