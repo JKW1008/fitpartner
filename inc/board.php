@@ -116,6 +116,14 @@
             $stmt->execute($params);
         }
 
+        //  파일 목록 업데이트
+        public function updateFileList($idx, $files, $downs){
+            $sql = "UPDATE fitboard SET files=:files, downhit=:downs WHERE idx=:idx";
+            $stmt = $this->conn->prepare($sql);
+            $params = [ ":idx" => $idx, ":files" => $files, ":downs" => $downs ];
+            $stmt->execute($params);
+        }
+
         //  첨부파일 구하기
         public function getAttachFile($idx, $th){
             $sql = "SELECT files FROM fitboard WHERE idx=:idx";
@@ -156,6 +164,40 @@
             $stmt = $this->conn->prepare($sql);
             $params = [ ":last_reader" => $str, ":idx" => $idx];
             $stmt->execute($params);
+        }
+
+        //  파일 첨부
+        public function file_attach($files, $file_cnt){
+            if(sizeof($files['name']) > 3 ){
+                $arr = [ "result" => "file_upload_count_exceed" ];
+                die(json_encode($arr));
+            }
+
+            $tmp_arr = [];
+            foreach($files['name'] AS $key => $val){
+                // $files['name'][$key];
+                $full_str = '';
+
+                $tmparr = explode('.', $files['name'][$key]);
+                $ext = end($tmparr);
+
+                $not_allowed_file_ext = ['txt', 'exe', 'xls', 'dmg', 'php', 'js'];
+
+                if(in_array($ext, $not_allowed_file_ext)){
+                    $arr = [ 'result' => 'not_allowed_file' ];
+                    die(json_encode($arr));
+                }
+
+                $flag = rand(1000, 9999);
+                $filename = 'a'. date('YmdHis') . $flag .'.'. $ext;
+                $file_ori = $files['name'][$key];
+
+                copy($files['tmp_name'][$key], BOARD_DIR .'/'. $filename);
+            
+                $full_str = $filename .'|'. $file_ori;
+                $tmp_arr[] = $full_str;
+            };
+            return implode('?', $tmp_arr);
         }
     }
 ?>

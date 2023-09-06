@@ -4,7 +4,6 @@
     // print_r($_SERVER);
     // exit;
 
-
     if(isset($_SERVER['CONTENT_LENGTH']) && $_SERVER['CONTENT_LENGTH'] > (int) ini_get('post_max_size') * 1024 * 1024){
         $arr = [ 'result' => 'post_size_exceed' ];
         die(json_encode($arr));
@@ -78,39 +77,10 @@
         };
 
         //  파일첨부
+        $file_list_str = "";
+
         if(isset($_FILES['files'])){
-            $file_list_str = "";
-
-            if(sizeof($_FILES['files']['name']) > 3 ){
-                $arr = [ "result" => "file_upload_count_exceed" ];
-                die(json_encode($arr));
-            }
-
-            $tmp_arr = [];
-            foreach($_FILES['files']['name'] AS $key => $val){
-                // $_FILES['files']['name'][$key];
-                $full_str = '';
-
-                $tmparr = explode('.', $_FILES['files']['name'][$key]);
-                $ext = end($tmparr);
-
-                $not_allowed_file_ext = ['txt', 'exe', 'xls', 'dmg', 'php', 'js'];
-
-                if(in_array($ext, $not_allowed_file_ext)){
-                    $arr = [ 'result' => 'not_allowed_file' ];
-                    die(json_encode($arr));
-                }
-
-                $flag = rand(1000, 9999);
-                $filename = 'a'. date('YmdHis') . $flag .'.'. $ext;
-                $file_ori = $_FILES['files']['name'][$key];
-
-                copy($_FILES['files']['tmp_name'][$key], BOARD_DIR .'/'. $filename);
-            
-                $full_str = $filename .'|'. $file_ori;
-                $tmp_arr[] = $full_str;
-            };
-            $file_list_str = implode('?', $tmp_arr);
+            $file_list_str = $board->file_attach($_FILES, $file_cnt);            
         };
 
 
@@ -152,8 +122,67 @@
             unlink(BOARD_DIR .'/'. $each_files[0]);
         }
 
-        // $arr = [ "result" => "success" ];
-        // die(json_encode($arr));
+        $row = $board->view($idx);
+        // $row['files']
+        $tmp_arr = [];
+        $files = explode('?', $row['files']);
 
+        foreach($files AS $key => $val){
+            if($key == $th) {
+                continue;
+            }
+            $tmp_arr[] = $val;
+        }
+
+        $files = implode('?', $tmp_arr);    //  새로 조합된 파일리스트 문자열
+
+        $tmp_arr = [];
+        $downs = explode('?', $row['downhit']);
+
+        foreach($downs AS $key => $val){
+            if($key == $th) {
+                continue;
+            }
+            $tmp_arr[] = $val;
+        }
+
+        $downs = implode('?', $tmp_arr);    //  새로 조합된 다운로드 수 문자열
+
+        $board->updateFileList($idx, $files, $downs);
+
+        $arr = [ "result" => "success" ];
+        die(json_encode($arr));
+
+    }
+    else if($mode == 'file_attach'){
+        //  수정해서 개별파일 첨부하기
+        $file_list_str = "";
+
+        if(isset($_FILES['files'])){
+            $file_cnt = 1;
+            $file_list_str = $board->file_attach($_FILES['files'], $file_cnt);            
+        }else{
+            $arr = [ "result" => "empty_files" ];
+            die(json_encode($arr));
+        }
+        
+        $row = $board->view($idx);
+
+        if($row['files'] != ''){
+            $files = $row['files'] .'?'. $file_list_str;
+        }else{
+            $files = $file_list_str;
+        }
+
+        if($row['downhit'] != ''){
+            $downs = $row['downhit'] .'?0';
+        }else{
+            $downs = '';
+        }
+
+        $board->updateFileList($idx, $files, $downs);
+
+        $arr = [ "result" => "success" ];
+        die(json_encode($arr));
     }
 ?>

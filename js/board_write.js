@@ -81,7 +81,9 @@ document.addEventListener("DOMContentLoaded", () => {
         ext == "php" ||
         ext == "js"
       ) {
-        alert("첨부할 수 없는 포맷의 파일이 첨부되었습니다.(exe, txt 등)");
+        alert(
+          "첨부할 수 없는 포맷의 파일이 첨부되었습니다.(exe, txt, php, js...)"
+        );
         id_attach.value = "";
         return false;
       }
