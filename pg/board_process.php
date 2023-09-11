@@ -33,7 +33,7 @@
 
     if($bcode == ''){
         $arr = [ "result" => "empty_bcode" ];
-        
+
         die(json_encode($arr));
     }
 

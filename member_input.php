@@ -1,9 +1,9 @@
 <?php
     if(!isset($_POST['chk']) or $_POST['chk'] != 1){
-        // die("<script>
-        //         alert('약관 동의 후에 접근 가능합니다.');
-        //         self.location.href = './stipulation.php';
-        //     </script>");
+        die("<script>
+                alert('약관 동의 후에 접근 가능합니다.');
+                self.location.href = './stipulation.php';
+            </script>");
     }
 
     $js_array = ['js/member_input.js'];
