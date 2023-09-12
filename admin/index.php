@@ -1,6 +1,6 @@
 <?php
     $g_title = '관리자 페이지 메인';
-    $js_array = ['js/home.js'];
+    $js_array = ['../js/home.js'];
 
     $menu_code = 'home';
 

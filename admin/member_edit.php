@@ -51,7 +51,7 @@
             </div>
             <div class="w-25">
                 <label for="">레벨</label>
-                <select name="" id="" class="form-select">
+                <select name="f_level" id="levelSelect" class="form-select">
                     <option value="1" <?php if($row['level'] == 1) echo " selected"; ?></option>가입대기</option>
                     <option value="2" <?php if($row['level'] == 2) echo " selected"; ?>>준회원</option>
                     <option value="3" <?php if($row['level'] == 3) echo " selected"; ?>>정회원</option>

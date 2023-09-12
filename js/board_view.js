@@ -65,8 +65,37 @@ document.addEventListener("DOMContentLoaded", () => {
   btn_comment.addEventListener("click", () => {
     const comment_content = document.querySelector("#comment_content");
     if (comment_content.value == "") {
-      comment_content.focus();
       alert("댓글 내용을 입력바랍니다.");
+      comment_content.focus();
+      return false;
     }
+
+    const f1 = new FormData();
+    f1.append("pidx", params["idx"]);
+    f1.append("content", comment_content.value);
+    f1.append("mode", "input");
+
+    const xhr = new XMLHttpRequest();
+    xhr.open("POST", "./pg/comment_process.php", true);
+    xhr.send(f1);
+    xhr.onload = () => {
+      if (xhr.status == 200) {
+        const data = JSON.parse(xhr.responseText);
+
+        if (data.result == "empty_pidx") {
+          alert("게시물 번호가 빠졌습니다.");
+          return false;
+        } else if (data.result == "empty__content") {
+          alert("댓글 내용이 빠졌습니다.");
+          comment_content.focus();
+          return false;
+        } else if (data.result == "success") {
+          alert("댓글이 등록되었습니다.");
+          self.location.reload();
+        }
+      } else if (xhr.status == 404) {
+        alert("통신실패 파일이 존재하지 않습니다.");
+      }
+    };
   });
 });

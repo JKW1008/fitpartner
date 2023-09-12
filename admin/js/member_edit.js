@@ -157,6 +157,10 @@ document.addEventListener("DOMContentLoaded", () => {
       return false;
     }
 
+    const selectedLevel = document.querySelector("#levelSelect").value;
+    f.level = selectedLevel;
+
+    // HTML 폼 엘리먼트의 submit 메소드 호출
     f.submit();
   });
 });

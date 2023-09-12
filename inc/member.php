@@ -134,17 +134,19 @@
                 $sql .= ", password=:password"; // 비밀번호 업데이트할 때만 추가
             }
 
-            if($_SESSION['ses_level'] == 10 && isset($_marr['idx']) && $marr['idx'] != ''){
+            if ($_SESSION['ses_level'] == 10 && isset($marr['idx']) && $marr['idx'] != '') {
                 $params[':level'] = $marr['level'];
                 $params[':idx'] = $marr['idx'];
                 $sql .= ", level=:level";
                 $sql .= " WHERE idx=:idx";
-            }else{
+            } elseif ($_SESSION['ses_level'] != 10) {
+                // 관리자 레벨이 아닌 경우 레벨 업데이트를 수행하지 않음
+                $sql .= " WHERE id=:id"; // 또는 필요한 조건으로 변경
                 $params[':id'] = $marr['id'];
-                $sql .= " WHERE id=:id";
             }
             $stmt = $this->conn->prepare($sql);
             $stmt->execute($params);
+            
         }
 
         //  회원 목록 가져오기

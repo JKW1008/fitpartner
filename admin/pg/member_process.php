@@ -5,10 +5,11 @@
 
     $db = $pdo;
     
-
     include "../../inc/member.php";    // Member 클래스파일
 
     $mem = new Member($db);
+
+
 
     $idx      = (isset($_POST['idx'      ]) && $_POST['idx'      ] != '') ? $_POST['idx'      ] : '';
     $id       = (isset($_POST['id'       ]) && $_POST['id'       ] != '') ? $_POST['id'       ] : '';
@@ -18,8 +19,10 @@
     $zipcode  = (isset($_POST['zipcode'  ]) && $_POST['zipcode'  ] != '') ? $_POST['zipcode'  ] : '';
     $addr1    = (isset($_POST['addr1'    ]) && $_POST['addr1'    ] != '') ? $_POST['addr1'    ] : '';
     $addr2    = (isset($_POST['addr2'    ]) && $_POST['addr2'    ] != '') ? $_POST['addr2'    ] : '';
-    $level    = (isset($_POST['level'    ]) && $_POST['level'    ] != '') ? $_POST['level'    ] : '';
+    $level    = (isset($_POST['f_level'    ]) && $_POST['f_level'    ] != '') ? $_POST['f_level'] : '';
     $old_photo= (isset($_POST['old_photo']) && $_POST['old_photo'] != '') ? $_POST['old_photo'] : '';
+
+
 
     // Profile Image 처리    
     if (isset($_FILES['photo']) && $_FILES['photo']['name'] != '') {

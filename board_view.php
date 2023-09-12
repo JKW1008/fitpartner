@@ -7,7 +7,7 @@
     $db = $pdo;
 
     include 'inc/board.php';    //  게시판 class
-    include './inc/lib.php';    //  페이지네이션용 함수
+    include 'inc/comment.php';  //  댓글 class
 
     $bcode = (isset($_GET['bcode']) && $_GET['bcode'] != '' ) ? $_GET['bcode'] : '';
     $idx = (isset($_GET['idx']) && $_GET['idx'] != '' && is_numeric($_GET['idx'])) ? $_GET['idx'] : '';
@@ -55,6 +55,11 @@
         ");
     }
 
+    // 댓글 목록
+    $comment = new Comment($db);
+
+    $commentLs = $comment->list($idx);
+ 
     //  $_SERVER['REMOTE_ADDR'] : 지금 접속한 사람의 IP정보를 담고있음
     if($boardRow['last_reader'] != $_SERVER['REMOTE_ADDR']){
         $board->hitInc($idx);
@@ -68,12 +73,12 @@
     include 'inc_header.php';
 ?>
 <main class="w-100 mx-auto border rounded-2 p-5 mt-5 mb-5">
-    <h1 class="text-center h1 mt-5"><?= $board_name; ?></h1>
+    <h1 class="text-center h1 mt-3 mb-5"><?= $board_name; ?></h1>
     <div class="vstack w-75 mx-auto">
         <div class="p-3">
-            <span class="h3 fw-border"><?= $boardRow['subject']; ?></span>
+            <span class="h3 fw-border mt-5"><?= $boardRow['subject']; ?></span>
         </div>
-        <div class="d-flex mt-5 border border-top-0 border-start-0 border-end-0 border-bottom-1 pb-2">
+        <div class="d-flex mt-3 border border-top-0 border-start-0 border-end-0 border-bottom-1 pb-2">
             <span><?= $boardRow['name']; ?></span>
             <span class="ms-5 me-auto"><?= $boardRow['hit']; ?>회</span>
             <span><?= $boardRow['create_at']; ?></span>
@@ -115,6 +120,33 @@
         <div class="d-flex gap-2 mt-3">
             <textarea name="" rows="3" class="form-control" id="comment_content"></textarea>
             <button class="btn btn-secondary" id="btn_comment">등록</button>
+        </div>
+        <div class="mt-3">
+            <table class="table">
+                <?php
+                    foreach($commentLs AS $comRow){
+                ?>
+                <tr>
+                    <td>
+                        <?php
+                            echo $comRow['content'];
+                        ?>
+                    </td>
+                    <td>
+                        <?php
+                            echo $comRow['id'];
+                        ?>
+                    </td>
+                    <td>
+                        <?php
+                            echo $comRow['create_at'];
+                        ?>
+                    </td>
+                </tr>
+                <?php
+                    }
+                ?>
+            </table>
         </div>
     </div>
 
