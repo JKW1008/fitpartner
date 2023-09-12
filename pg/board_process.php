@@ -24,6 +24,7 @@
     $idx     = (isset($_POST['idx'    ]) && $_POST['idx'    ] != '' && is_numeric($_POST['idx'])) ? $_POST['idx'    ] : '';
     $th      = (isset($_POST['th'     ]) && $_POST['th'     ] != '' && is_numeric($_POST['th'])) ? $_POST['th'     ] : '';
 
+
     if($mode == ''){
         $arr = [ "result" => "empty_mode" ];
         $json_str = json_encode($arr);
@@ -78,9 +79,9 @@
 
         //  파일첨부
         $file_list_str = "";
-
+        $file_cnt = 3;
         if(isset($_FILES['files'])){
-            $file_list_str = $board->file_attach($_FILES, $file_cnt);            
+            $file_list_str = $board->file_attach($_FILES['files'], $file_cnt);            
         };
 
 
@@ -184,5 +185,97 @@
 
         $arr = [ "result" => "success" ];
         die(json_encode($arr));
+    }
+    else if($mode == "edit"){
+
+        $row = $board->view($idx);
+
+        if($row['id'] != $ses_id){
+            $arr = [ "result" => "permission_denied" ];
+            die(json_encode($arr));
+        }
+
+        $old_img_arr = $board->extract_image($row['content']);
+
+        //  이미지 변환하여 저장하기
+        preg_match_all("/<img[^>]*src=[\"']?([^>\"']+)[\"']?[^>]*>/i", $content, $matches);
+
+        $current_img_arr = [];
+        foreach($matches[1] AS $key => $row){
+            if(substr($row, 0, 5) != 'data:'){
+                $current_img_arr[] = $row;
+                continue;
+            }
+
+            list($type, $data) = explode(';', $row);
+            list(,$data) = explode(',', $data);
+            $data = base64_decode($data);
+            list(,$ext) = explode('/', $type);
+            $ext = ($ext == 'jpeg') ? 'jpg' : $ext;
+
+            $filename = date('YmdHis') .'_'. $key .'.'. $ext;
+
+            file_put_contents(BOARD_DIR."/". $filename, $data); //  파일 업로드
+
+            $content = str_replace($row, BOARD_WEB_DIR."/". $filename, $content);   //  base64 인코딩된 이미지가 서버 업로드 이름으로 변경
+        }
+
+        $diff_img_arr = array_diff($old_img_arr, $current_img_arr);
+
+        foreach($diff_img_arr AS $value){
+            unlink("../".$value);
+        }
+
+        if($subject == ''){
+            $arr = [ "result" => "empty_subject" ];
+            die(json_encode($arr));
+        };
+
+        if($content == '' || $content == '<p><br></p>'){
+            $arr = [ "result" => "empty_content" ];
+            die(json_encode($arr));
+        };
+
+        $arr = [
+            'idx' => $idx,
+            'subject' => $subject,
+            'content' => $content,
+        ];
+
+        $board->edit($arr);
+
+        die(json_encode([ "result" => "success" ]));
+    }
+    else if($mode == 'delete'){
+        // db 에서 해당 row 삭제
+        //  첨부 파일 삭제
+        //  본문에 이미지가 있는 경우 본문이미지도 삭제
+
+        $row = $board->view($idx);
+
+        //  본문 이미지 삭제
+        $img_arr = $board->extract_image($row['content']);
+        foreach($img_arr as $value){
+            $imagePath = "../" . $value; // 이미지 파일 경로
+            if(file_exists($imagePath)){
+                unlink($imagePath); // 파일 삭제
+            }
+        }
+
+
+    // 첨부 파일 삭제
+        if($row['files'] != ''){
+            $filelist = explode('?', $row['files']);
+            foreach($filelist as $val){
+                list($file_src, ) = explode('|', $val);
+                $filePath = BOARD_DIR . '/' . $file_src; // 첨부 파일 경로
+                if(file_exists($filePath)){
+                    unlink($filePath); // 파일 삭제
+                }
+            }
+        }
+        $board->delete($idx);
+
+        die(json_encode([ "result" => "success" ]));
     }
 ?>

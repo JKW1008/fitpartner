@@ -106,11 +106,6 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     // 비밀번호 확인
-    if (f.password.value == "") {
-      alert("비밀번호를 입력해 주세요.");
-      f.password.focus();
-      return false;
-    }
 
     if (f.password2.value == "") {
       alert("확인용 비밀번호를 입력해 주세요.");

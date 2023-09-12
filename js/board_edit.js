@@ -114,4 +114,53 @@ document.addEventListener("DOMContentLoaded", () => {
   btn_board_list.addEventListener("click", () => {
     self.location.href = "./board.php?bcode=" + params["bcode"];
   });
+
+  //  수정확인 버튼 클릭시
+  const btn_edit_submit = document.querySelector("#btn_edit_submit ");
+  btn_edit_submit.addEventListener("click", () => {
+    const id_subject = document.querySelector("#id_subject");
+
+    if (id_subject.value == "") {
+      alert("게시물 제목을 입력해 주세요.");
+      id_subject.focus();
+      return false;
+    }
+
+    const markupStr = $("#summernote").summernote("code");
+
+    if (markupStr == "<p><br></p>") {
+      alert("내용을 입력해 주세요.");
+      return false;
+    }
+
+    const params = getUrlParams();
+
+    const f = new FormData();
+    f.append("subject", id_subject.value); //  제목
+    f.append("content", markupStr); //  내용
+    f.append("bcode", params["bcode"]); //  게시판 코드
+    f.append("idx", params["idx"]); //  게시물 번호
+    f.append("mode", "edit"); //  모드 : 글등록
+
+    const xhr = new XMLHttpRequest();
+
+    xhr.open("POST", "./pg/board_process.php", true);
+    xhr.send(f);
+
+    xhr.onload = () => {
+      if (xhr.status == 200) {
+        const data = JSON.parse(xhr.responseText);
+
+        if (data.result == "success") {
+          alert("수정되었습니다.");
+          self.location.href = "./board.php?bcode=" + params["bcode"];
+        } else if (data.result == "permission_denied") {
+          alert("수정 권한이 없는 게시물입니다.");
+          self.location.href = "./board.php?bcode=" + params["bcode"];
+        }
+      } else if (xhr.status == 404) {
+        alert("파일이 없습니다.");
+      }
+    };
+  });
 });

@@ -23,6 +23,14 @@
             $stmt->execute();
         }
 
+        //  글 수정
+        public function edit($arr){
+            $sql = "UPDATE fitboard SET subject=:subject, content=:content WHERE idx=:idx";
+            $stmt = $this->conn->prepare($sql);
+            $params = [':subject' => $arr['subject'], ':content' => $arr['content'], ':idx' => $arr['idx']];
+            $stmt->execute($params);
+        }
+
         //  글 목록
         public function list($bcode, $page, $limit, $paramArr){
             $start = ($page - 1) * $limit;
@@ -168,7 +176,8 @@
 
         //  파일 첨부
         public function file_attach($files, $file_cnt){
-            if(sizeof($files['name']) > 3 ){
+         
+            if(sizeof($files['name']) > $file_cnt ){
                 $arr = [ "result" => "file_upload_count_exceed" ];
                 die(json_encode($arr));
             }
@@ -198,6 +207,23 @@
                 $tmp_arr[] = $full_str;
             };
             return implode('?', $tmp_arr);
+        }
+
+        public function extract_image($content){
+            preg_match_all("/<img[^>]*src=[\"']?([^>\"']+)[\"']?[^>]*>/i", $content, $matches);
+
+            $img_array = [];
+            foreach($matches[1] AS $key => $row){
+                $img_array[] = $row;
+            }
+            return $img_array;
+        }
+
+        public function delete($idx){
+            $sql = "DELETE FROM fitboard WHERE idx=:idx";
+            $stmt = $this->conn->prepare($sql);
+            $params = [':idx' => $idx];
+            $stmt->execute($params);
         }
     }
 ?>

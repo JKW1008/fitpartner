@@ -88,7 +88,7 @@
 
                         echo "<div class='w-50 d-flex justify-content-between'>
                                 <a href=\"./pg/boarddownload.php?idx=$idx&th=$th\">$file_name</a>
-                                <button class='btn btn-sm btn-danger mb-2 btn_file_del' data-th=".$th.">삭제</button>
+                                <button class='btn btn-sm btn-danger mb-2 btn_file_del py-0' data-th=".$th.">삭제</button>
                             </div>";
                         $th++;
                     }
@@ -105,7 +105,7 @@
         }
     ?>
     <div class="mt-3 d-flex gap-2 justify-content-end">
-        <button class="btn btn-primary" id="btn_write_submit">확인</button>
+        <button class="btn btn-primary" id="btn_edit_submit">확인</button>
         <button class="btn btn-secondary" id="btn_board_list">목록</button>
     </div>
 </main>

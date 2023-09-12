@@ -46,6 +46,15 @@
     
     $boardRow = $board->view($idx);
 
+    if($boardRow == null){
+        die("
+            <script>
+                alert('존재하지 않는 게시물 입니다.');
+                history.go(-1);
+            </script>
+        ");
+    }
+
     //  $_SERVER['REMOTE_ADDR'] : 지금 접속한 사람의 IP정보를 담고있음
     if($boardRow['last_reader'] != $_SERVER['REMOTE_ADDR']){
         $board->hitInc($idx);
@@ -103,8 +112,12 @@
                 }  
             ?>
         </div>
-
+        <div class="d-flex gap-2 mt-3">
+            <textarea name="" rows="3" class="form-control" id="comment_content"></textarea>
+            <button class="btn btn-secondary" id="btn_comment">등록</button>
+        </div>
     </div>
+
 </main>
 <?php
     include 'inc_footer.php';
