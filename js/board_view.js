@@ -85,7 +85,7 @@ document.addEventListener("DOMContentLoaded", () => {
         if (data.result == "empty_pidx") {
           alert("게시물 번호가 빠졌습니다.");
           return false;
-        } else if (data.result == "empty__content") {
+        } else if (data.result == "empty_content") {
           alert("댓글 내용이 빠졌습니다.");
           comment_content.focus();
           return false;
@@ -97,5 +97,34 @@ document.addEventListener("DOMContentLoaded", () => {
         alert("통신실패 파일이 존재하지 않습니다.");
       }
     };
+  });
+
+  //  댓글 삭제 버튼 클릭시
+  const btn_comment_deletes = document.querySelectorAll(".btn_comment_delete");
+  btn_comment_deletes.forEach((box) => {
+    box.addEventListener("click", () => {
+      if (!confirm("이 댓글을 삭제하시겠습니까?")) {
+        return false;
+      }
+
+      const f1 = new FormData();
+      f1.append("pidx", params["idx"]);
+      f1.append("idx", box.dataset.commentIdx);
+      f1.append("mode", "delete");
+
+      const xhr = new XMLHttpRequest();
+      xhr.open("POST", "pg/comment_process.php", true);
+      xhr.send(f1);
+      xhr.onload = () => {
+        if (xhr.status == 200) {
+          const data = JSON.parse(xhr.responseText);
+          if (data.result == "success") {
+            self.location.reload();
+          }
+        } else if (xhr.status == 404) {
+          alert("통신실패");
+        }
+      };
+    });
   });
 });

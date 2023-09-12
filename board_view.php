@@ -123,6 +123,11 @@
         </div>
         <div class="mt-3">
             <table class="table">
+                <colgroup>
+                    <col width="50%">
+                    <col width="10%">
+                    <col width="10%">
+                </colgroup>
                 <?php
                     foreach($commentLs AS $comRow){
                 ?>
@@ -130,6 +135,10 @@
                     <td>
                         <?php
                             echo $comRow['content'];
+
+                            if($comRow['id'] == $ses_id){
+                                echo ' <button class="btn btn-danger p-1 btn-sm ms-2 btn_comment_delete" data-comment-idx="'.$comRow['idx'].'">삭제</button>';
+                            }
                         ?>
                     </td>
                     <td>

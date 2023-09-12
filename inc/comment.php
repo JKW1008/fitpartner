@@ -30,6 +30,7 @@
             $stmt->execute($params);            
         }
 
+        //  댓글 목록
         public function list($pidx){
             $sql = "SELECT * FROM comment WHERE pidx=:pidx";
             $stmt = $this->conn->prepare($sql);
@@ -37,6 +38,19 @@
             $stmt->setFetchMode(PDO::FETCH_ASSOC);
             $stmt->execute($params);            
             return $stmt->fetchAll();
+        }
+
+        //  댓글 삭제
+        public function delete($pidx, $idx){
+            $sql = "UPDATE fitboard SET comment_cnt=comment_cnt-1 WHERE idx=:pidx";
+            $stmt = $this->conn->prepare($sql);
+            $params = [ ":pidx" => $pidx ];
+            $stmt->execute($params);
+
+            $sql = "DELETE FROM comment WHERE idx=:idx";
+            $stmt = $this->conn->prepare($sql);
+            $params = [ ":idx" => $idx ];
+            $stmt->execute($params);
         }
     }
 ?>

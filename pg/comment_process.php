@@ -1,8 +1,4 @@
 <?php
-    $err_array = error_get_last();
-
-    print_r($err_array);
-
     include '../inc/common.php';
     include '../inc/dbconfig.php';
  
@@ -21,23 +17,46 @@
     $pidx    = (isset($_POST['pidx'   ]) && $_POST['pidx'   ] != '') ? $_POST['pidx'   ] : '';
     $content = (isset($_POST['content']) && $_POST['content'] != '') ? $_POST['content'] : '';
 
+    if($mode == ''){
+        $arr = [ "result" => "empty_mode" ];
+        die(json_encode($arr));
+    }
+
+    $comment = new Comment($db);
+
     //  댓글 등록
     if($mode == 'input'){
         if($pidx == ''){
-            $arr = [ "result" => "empty__pidx" ];
+            $arr = [ "result" => "empty_pidx" ];
             die(json_encode($arr));
         }
 
         if($content == ''){
-            $arr = [ "result" => "empty__content" ];
+            $arr = [ "result" => "empty_content" ];
             die(json_encode($arr));
         }
 
         $arr = [ "pidx" => $pidx, "content" => $content, "id" => $ses_id ];
       
-        $comment = new Comment($db);
         $comment->input($arr);
 
+        $arr = [ "result" => "success" ];
+        die(json_encode($arr));
+      }
+
+      else if($mode == "delete"){
+        if($pidx == ''){
+            $arr = [ "result" => "empty_pidx" ];
+            die(json_encode($arr));
+        }
+
+        if($idx == ''){
+            $arr = [ "result" => "empty_idx" ];
+            die(json_encode($arr));
+        }
+
+        $comment->delete($pidx, $idx);
+        
         $arr = [ "result" => "success" ];
         die(json_encode($arr));
       }
