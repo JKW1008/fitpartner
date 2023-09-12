@@ -2,7 +2,7 @@
     $g_title = '회원목록 관리';
     $js_array = ['js/reservation.js'];
 
-    $menu_code = 'member';
+    $menu_code = 'reservation';
 
     include 'inc_common.php';
     include 'inc_header.php';
@@ -10,18 +10,18 @@
 
     $db = $pdo;
 
-    include '../inc/member.php';    // 회원관리 Class
+    include '../inc/reservation.php';    // 회원관리 Class
 
     $sn = (isset($_GET['sn']) && $_GET['sn'] != '' && is_numeric($_GET['sn'])) ? $_GET['sn'] : '';
     $sf = (isset($_GET['sf']) && $_GET['sf'] != '') ? $_GET['sf'] : '';
 
     $paramArr = [ 'sn' => $sn, 'sf' => $sf];
 
-    $mem = new Member($db);
+    $mem = new Reservation($db);
     include '../inc/lib.php';   // 페이지네이션
 
     $total = $mem->total($paramArr);
-    $limit = 5;
+    $limit = 10;
     $page_limit = 5;
     $page = (isset($_GET['page']) && $_GET['page'] != '' && is_numeric($_GET['page'])) ? $_GET['page'] : 1;
 
@@ -29,18 +29,21 @@
     $param = '';
 
     $memArr = $mem->list($page, $limit, $paramArr);
+
+    
 ?>
 <main class="border rounded-2 p-5" style="height: calc(100vh - 257px);">
     <div class="container">
-        <h3>회원관리</h3>
+        <h3>예약관리</h3>
     </div>
     <table class="table table-border">
         <tr>
             <th>번호</th>
-            <th>아이디</th>
-            <th>이름</th>
+            <th>회사명</th>
+            <th>대표명</th>
             <th>이메일</th>
             <th>등록일시</th>
+            <th>예약여부</th>
             <th>관리</th>
         </tr>
         <?php
@@ -50,10 +53,18 @@
         ?>
         <tr>
             <td><?= $row['idx']; ?></td>
-            <td><?= $row['id']; ?></td>
+            <td><?= $row['companyname']; ?></td>
             <td><?= $row['name']; ?></td>
             <td><?= $row['email']; ?></td>
             <td><?= $row['create_at']; ?></td>
+            <td><?php 
+                    if($row['counseled'] == 0){
+                        echo "상담전";
+                    }else if($row['counseled'] == 1){
+                        echo "상담 완료";
+                    }
+                ?>
+            </td>
             <td>
                 <button class="btn btn-primary btn-sm btn_mem_edit" data-idx="<?= $row['idx']; ?>">수정</button>
                 <button class="btn btn-danger btn-sm btn_mem_delete" data-idx="<?= $row['idx']; ?>">삭제</button>
@@ -65,9 +76,8 @@
     </table>
     <div class="container mt-3 d-flex gap-2 w-50">
         <select name="sn" id="sn" class="form-select w-25">
-            <option value="1">이름</option>
-            <option value="2">아이디</option>
-            <option value="3">이메일</option>
+            <option value="1">회사명</option>
+            <option value="2">대표명</option>
         </select>
         <input type="text" class="form-control w-25" id="sf" name="sf">
         <button class="btn btn-primary w-25" id="btn_search">검색</button>

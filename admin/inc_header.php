@@ -38,6 +38,8 @@
                         class="nav-link <?= ($menu_code == 'member') ? 'active' : ''; ?>">회원관리</a></li>
                 <li class="nav-item"><a href="board.php"
                         class="nav-link <?= ($menu_code == 'board') ? 'active' : ''; ?>">게시판관리</a></li>
+                <li class="nav-item"><a href="reservation.php"
+                        class="nav-link <?= ($menu_code == 'reservation') ? 'active' : ''; ?>">예약관리</a></li>
                 <li class="nav-item"><a href="../pg/logout.php"
                         class="nav-link <?= ($menu_code == 'login') ? 'active' : ''; ?>">로그아웃</a></li>
 
