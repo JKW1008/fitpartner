@@ -16,7 +16,8 @@
 
     $boardArr = $board->list();
 ?>
-<main class="border rounded-2 p-5" style="height: calc(100vh - 257px);">
+<main class="border rounded-2 p-5" style="height: 76vh">
+
     <div class="container">
         <h3>게시판관리</h3>
     </div>

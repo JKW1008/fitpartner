@@ -42,11 +42,13 @@
 
         //  댓글 삭제
         public function delete($pidx, $idx){
+            //  댓글 갯수 감소
             $sql = "UPDATE fitboard SET comment_cnt=comment_cnt-1 WHERE idx=:pidx";
             $stmt = $this->conn->prepare($sql);
             $params = [ ":pidx" => $pidx ];
             $stmt->execute($params);
 
+            //  댓글 삭제
             $sql = "DELETE FROM comment WHERE idx=:idx";
             $stmt = $this->conn->prepare($sql);
             $params = [ ":idx" => $idx ];

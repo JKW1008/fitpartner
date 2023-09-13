@@ -7,10 +7,10 @@
 
     include 'inc_header.php';
 ?>
-<main class="w-75 mx-auto border rounded-5 p-5 d-flex gap-5" style="height: calc(100vh - 257px);">
+<main class="w-75 mx-auto border rounded-5 p-5 d-flex gap-5 mt-5 mb-5" style="height: calc(100vh - 257px);">
     <form action="" class="w-25 mt-5 m-auto">
-        <img src="./images/logo.svg" alt="" width="72">
-        <h1 class="h3 mb-3">로그인</h1>
+        <img src="./images/Fit Partner.png" alt="" width="100%" class="mt-5">
+        <h1 class="h3 mt-5 mb-3">로그인</h1>
         <div class="form-floating  mt-2">
             <input type="text" class="form-control" id="f_id" placeholder="아이디 입력" autocomplete="off">
             <label for="f_id">아이디</label>

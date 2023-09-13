@@ -7,10 +7,10 @@
     include 'inc_common.php';
     include 'inc_header.php';
 ?>
-<main class="w-75 mx-auto border rounded-5 p-5 d-flex gap-5" style="height: calc(100vh - 257px);">
-    <img src="../images/logo.svg" alt="" class="w-50">
+<main class="w-75 mx-auto border rounded-5 p-5 d-flex gap-5" style="margin: 24%  0;">
+    <img src=" ../images/Fit Partner.png" alt="" style="width: 60%;">
     <div>
-        <h3>HOME 입니다.</h3>
+        <h3>관리자모드</h3>
     </div>
 </main>
 <?php

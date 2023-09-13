@@ -32,7 +32,7 @@
 
     
 ?>
-<main class="border rounded-2 p-5" style="height: calc(100vh - 257px);">
+<main class="border rounded-2 p-5">
     <div class="container">
         <h3>예약관리</h3>
     </div>

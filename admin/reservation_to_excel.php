@@ -9,7 +9,7 @@
     $reser = new Reservation($db);
 
     $rs = $reser->getAllData();
- 
+    
     header("Content-type: application/vnd.ms-excel");
     header("Content-Disposition: attachment; filename=reservation.xls");
     header("Content-Description: PHP8 Generated Data");
@@ -58,10 +58,10 @@
                 }
                 echo '
                     <tr>
-                        <td>'.$row['copanyname'].'</td>
+                        <td>'.$row['companyname'].'</td>
                         <td>'.$row['name'].'</td>
-                        <td>'.$row['eamil'].'</td>
-                        <td>'.$row['phone_numeber'].'</td>
+                        <td>'.$row['email'].'</td>
+                        <td>'.$row['phone_number'].'</td>
                         <td>'.$row['content'].'</td>
                         <td>'.$check.'</td>
                         <td>'.$row['create_at'].'</td>
