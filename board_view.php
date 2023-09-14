@@ -119,7 +119,7 @@
         </div>
         <div class="d-flex gap-2 mt-3">
             <textarea name="" rows="3" class="form-control" id="comment_content"></textarea>
-            <button class="btn btn-secondary" id="btn_comment">등록</button>
+            <button class="btn btn-secondary" id="btn_comment" data-comment-idx="0">등록</button>
         </div>
         <div class="mt-3">
             <table class="table">
@@ -132,12 +132,12 @@
                     foreach($commentLs AS $comRow){
                 ?>
                 <tr>
-                    <td>
+                    <td><span><?php echo nl2br($comRow['content']); ?></span>
                         <?php
-                            echo $comRow['content'];
-
                             if($comRow['id'] == $ses_id){
-                                echo ' <button class="btn btn-danger p-1 btn-sm ms-2 btn_comment_delete" data-comment-idx="'.$comRow['idx'].'">삭제</button>';
+                                echo ' 
+                                <button class="btn btn-info p-1 btn-sm btn_comment_edit" data-comment-idx=" '. $comRow['idx'] .'">수정</button>
+                                <button class="btn btn-danger p-1 btn-sm ms-2 btn_comment_delete" data-comment-idx="'.$comRow['idx'].'">삭제</button>';
                             }
                         ?>
                     </td>

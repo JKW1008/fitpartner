@@ -58,7 +58,7 @@
 
             }
 
-            $sql = "SELECT idx, id, subject, name, hit, DATE_FORMAT(create_at, '%Y-%m-%d %H:%i') AS create_at 
+            $sql = "SELECT idx, id, subject, name, hit, comment_cnt, DATE_FORMAT(create_at, '%Y-%m-%d %H:%i') AS create_at 
                     FROM fitboard  ". $where ." 
                     ORDER BY idx DESC LIMIT ".$start.",".$limit;     // 1페이지면 0, 5, 2페이지면 5, 5, 10, 5, 10, 5
                     

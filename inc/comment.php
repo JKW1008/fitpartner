@@ -54,5 +54,22 @@
             $params = [ ":idx" => $idx ];
             $stmt->execute($params);
         }
+
+        //  댓글 수정
+        public function update($arr){
+            $sql = "UPDATE comment SET content=:content WHERE idx=:idx";
+            $stmt = $this->conn->prepare($sql);
+            $params = [ ":content" => $arr['content'], ":idx" => $arr['idx'] ];
+            $stmt->execute($params);
+        }
+        
+        public function getInfo($idx){
+            $sql = "SELECT * FROM comment WHERE idx=:idx";
+            $stmt = $this->conn->prepare($sql);
+            $params = [ ":idx" => $idx ];
+            $stmt->setFetchMode(PDO::FETCH_ASSOC);
+            $stmt->execute($params);            
+            return $stmt->fetch();
+        }
     }
 ?>

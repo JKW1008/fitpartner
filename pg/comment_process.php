@@ -24,6 +24,21 @@
 
     $comment = new Comment($db);
 
+    //  댓글 소유권 확인 (인가자만 댓글 수정 삭제가 가능하게 처리)
+    if($mode == 'edit' || $mode =="delete"){
+        if($idx == ''){
+            $arr = [ "result" => "empty_idx" ];
+            die(json_encode($arr));
+        }
+
+        $commentRow = $comment->getInfo($idx);
+
+        if($commentRow['id'] != $ses_id){
+            $arr = [ "result" => "access_denied" ];
+            die(json_encode($arr));
+        }
+    }
+
     //  댓글 등록
     if($mode == 'input'){
         if($pidx == ''){
@@ -43,15 +58,24 @@
         $arr = [ "result" => "success" ];
         die(json_encode($arr));
       }
+      else if($mode == "edit"){
+
+        if($content == ''){
+            $arr = [ "result" => "empty_content" ];
+            die(json_encode($arr));
+        }
+        
+        $arr = [ "idx" => $idx, "content" => $content, "id" => $ses_id ];
+      
+        $comment->update($arr);
+
+        $arr = [ "result" => "edit_success" ];
+        die(json_encode($arr));
+      }
 
       else if($mode == "delete"){
         if($pidx == ''){
             $arr = [ "result" => "empty_pidx" ];
-            die(json_encode($arr));
-        }
-
-        if($idx == ''){
-            $arr = [ "result" => "empty_idx" ];
             die(json_encode($arr));
         }
 

@@ -80,7 +80,15 @@
         ?>
         <tr class="tr" data-idx="<?= $boardRow['idx']; ?>">
             <td><?= $number; ?></td>
-            <td><?= $boardRow['subject'  ]; ?></td>
+            <td>
+                <?php 
+                    echo $boardRow['subject'  ];
+
+                    if($boardRow['comment_cnt'] > 0 ) {
+                        echo ' <span class="badge bg-secondary">[' . $boardRow['comment_cnt'] . ']</span>';
+                    }
+                ?>
+            </td>
             <td><?= $boardRow['name'     ]; ?></td>
             <td><?= $boardRow['create_at']; ?></td>
             <td><?= $boardRow['hit'      ]; ?></td>
