@@ -24,7 +24,7 @@
 <body>
     <div class="container">
         <header class="d-flex flex-wrap justify-content-center py-3 mb-4 border-bottom">
-            <a href="/"
+            <a href="../index.php"
                 class="d-flex align-items-center mb-3 mb-md-0 me-md-auto link-body-emphasis text-decoration-none"
                 style="width: 10%;">
                 <img src="../images/Fit Partner.png" alt="" style="width: 100%" class="me-5" />
@@ -41,7 +41,7 @@
                 <li class="nav-item"><a href="board.php"
                         class="nav-link <?= ($menu_code == 'board') ? 'active' : ''; ?>">게시판관리</a></li>
                 <li class="nav-item"><a href="reservation.php"
-                        class="nav-link <?= ($menu_code == 'reservation') ? 'active' : ''; ?>">예약관리</a></li>
+                        class="nav-link <?= ($menu_code == 'reservation') ? 'active' : ''; ?>">상담관리</a></li>
                 <li class="nav-item"><a href="../pg/logout.php"
                         class="nav-link <?= ($menu_code == 'login') ? 'active' : ''; ?>">로그아웃</a></li>
 
