@@ -46,7 +46,7 @@
         <?php
             foreach($memArr AS $row){
 
-                // $row['create_at'] = substr($row['create_at'], 0, 16);
+            // $row['create_at'] = substr($row['create_at'], 0, 16);
         ?>
         <tr>
             <td><?= $row['idx']; ?></td>
